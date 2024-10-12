@@ -53,5 +53,47 @@ class Bullet(pygame.sprite.Sprite): # again, looking at the enemy sprite from e
 # if you have finished this week's exercise, try and figure out how to get images for the bullets and platforms instead of rectangles
 # see https://www.pygame.org/docs/ref/image.html#pygame.image.load
 # think about adding zapping noises for the bullets: see https://www.pygame.org/docs/ref/mixer.html and https://pythonprogramming.net/adding-sounds-music-pygame/
+# code below tests the platform and enemy code. think about how you can test the bullet code. 
+# Initialize Pygame
+pygame.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Sprite Test")
+
+# Create sprite groups
+all_sprites = pygame.sprite.Group()
+enemies = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
+
+
+# Create enemies
+for _ in range(5):
+    enemy = Enemy(random.randint(WIDTH, WIDTH + 100), HEIGHT - 100)
+    all_sprites.add(enemy,)
+    enemies.add(enemy)
+
+# Create platform
+platform = Platform(100, HEIGHT - 50, 600, 20)
+all_sprites.add(platform)
+
+
+# Main game loop
+running = True
+clock = pygame.time.Clock()
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+ 
+    all_sprites.update()
+
+    # Fill the screen with white
+    screen.fill(WHITE)
+    
+    # Draw all sprites
+    all_sprites.draw(screen)
+
+    # Refresh the display
+    pygame.display.flip()
+    clock.tick(60)
 
 pygame.quit()
