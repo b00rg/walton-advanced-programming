@@ -56,7 +56,7 @@ def draw_health(health):
     # a rectangle in pygame can be drawn like 
     # pygame.draw.rect(screen, HEART_COLOR, (10, 10, 30, 30))
     # create a function that draws heart-coloured boxes in the top left corner in the range of the input health
-    # if you have time at the end, think about how you would use a heart image in the game instead of a rectangle: see https://www.pygame.org/docs/ref/image.html#pygame.image.load
+  
 
     
 class Enemy(pygame.sprite.Sprite):
@@ -66,7 +66,6 @@ class Enemy(pygame.sprite.Sprite):
         # Create a surface (a rectangle) for our enemy, which will be 50 pixels wide and 50 pixels tall.
         self.image = pygame.Surface((50, 50)) # creates a bounding box for the enemy
         self.image.fill(RED) # fills the enemy red. 
-        # again, if you have time at the end, try and figure out how to get images for the enemies instead of rectangles
         # Get the rectangle shape (rect) around the image, and set its top-left corner at the (x, y) position.
         self.rect = self.image.get_rect(topleft=(x, y))
         self.speed = # pick how fast you want the enemy to be using randint 
@@ -75,7 +74,9 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x -= self.speed  # Move left. Try and get the enemies to move in different ways depending on randint and if statements, e.g. up & down, left & right `random.randint(3, 9)` gives between the range 3 and 9
         # Respawn if it goes off screen
         if self.rect.right < 0: # note this is going to have to change based on what direction it is moving; because it is going from right to left, it disappears when x = 0  
-            self.rect.x = 
-            self.rect.y = 
+            # self.rect.x = 
+            # self.rect.y = 
 
+# if you have time at the end, think about how you would use a heart image in the game instead of a rectangle for hearts: see https://www.pygame.org/docs/ref/image.html#pygame.image.load
+# do the same for enemies. 
 pygame.quit()
