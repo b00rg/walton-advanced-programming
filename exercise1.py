@@ -80,4 +80,80 @@ class Enemy(pygame.sprite.Sprite):
 # if you have time at the end, think about how you would use a heart image in the game instead of a rectangle for hearts: 
 # do the same for enemies. 
 # see https://www.geeksforgeeks.org/python-display-images-with-pygame/ and https://www.pygame.org/docs/ref/image.html#pygame.image.load
-pygame.quit()
+
+# here is a main to test if your code is working. It should change from start to paused when the space bar is pressed. 
+# When you press space again, it goes to display your hearts and enemies on screen. You may continually press the space bar to respawn enemies. 
+def main():
+    global running, game_active, on_start_screen, game_over_state
+
+    # Initialize variables
+    running = True
+    game_active = False
+    on_start_screen = True
+    game_over_state = False
+    paused = False
+    player_health = 3  # Example health variable
+
+    # Setup clock
+    clock = pygame.time.Clock()
+    
+    # Define enemies group
+    enemies = pygame.sprite.Group()  # Group to hold multiple enemies
+
+    # Create a few enemies for testing
+    for _ in range(3):
+        x = random.randint(0, WIDTH - 50)  # Random horizontal position
+        y = HEIGHT - 150  # Enemies positioned at the bottom of the screen
+        enemies.add(Enemy(x, y))
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and on_start_screen:
+                    game_active = True
+                    on_start_screen = False
+                if event.key == pygame.K_SPACE and game_active:
+                    game_active = False
+                    game_over_state = True  # Transition to game over
+                if event.key == pygame.K_SPACE and game_over_state:
+                    # Reset the game
+                    player_health = 3
+                    game_active = True
+                    game_over_state = False
+                    on_start_screen = False
+                    enemies.empty()  # Clear existing enemies
+                    # Create new enemies for the new game
+                    for _ in range(3):
+                        x = random.randint(0, WIDTH - 50)  # Random horizontal position
+                        y = HEIGHT - 150  # Enemies positioned at the bottom of the screen
+                        enemies.add(Enemy(x, y))
+                if event.key == pygame.K_q:
+                    running = False
+
+        if on_start_screen:
+            start_screen()
+        elif game_active:
+            if not paused:
+                screen.fill(WHITE)  # Fill the screen with white
+                draw_health(player_health)  # Draw health
+                # Draw enemies
+                for enemy in enemies:
+                    screen.blit(enemy.image, enemy.rect)
+
+            else:
+                pause_screen()
+
+        elif game_over_state:
+            game_over()
+
+        # Update display
+        pygame.display.flip()
+        clock.tick(FPS)
+
+    pygame.quit()
+    sys.exit()
+
+if __name__ == "__main__":
+    main()
