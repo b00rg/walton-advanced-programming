@@ -77,6 +77,7 @@ class Enemy(pygame.sprite.Sprite):
             # self.rect.x = 
             # self.rect.y = 
 
-# if you have time at the end, think about how you would use a heart image in the game instead of a rectangle for hearts: see https://www.pygame.org/docs/ref/image.html#pygame.image.load
+# if you have time at the end, think about how you would use a heart image in the game instead of a rectangle for hearts: 
 # do the same for enemies. 
+# see https://www.geeksforgeeks.org/python-display-images-with-pygame/ and https://www.pygame.org/docs/ref/image.html#pygame.image.load
 pygame.quit()
