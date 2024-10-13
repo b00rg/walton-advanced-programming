@@ -1,29 +1,42 @@
 import pygame
 import sys
-import random
-pygame.init()
+
+
+# Constants
 WIDTH, HEIGHT = 800, 600
-FPS = 60 
-GRAVITY = 0.5
-JUMP_STRENGTH = 10
 PLAYER_SPEED = 5
+JUMP_STRENGTH = 15
+GRAVITY = 1
+MAX_BULLETS = 5
 BULLET_SPEED = 10
-MAX_BULLETS = 3  
+BLUE = (0, 0, 255)
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+
+# Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 HEART_COLOR = (255, 20, 147)
+
+FPS = 60
+
+# Initialize Pygame
+pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Scrolling Platformer")
-reset_game()
+pygame.display.set_caption("Player Test")
 clock = pygame.time.Clock()
-camera_x = 0  
-running = True
-game_active = False  
-paused = False  
-on_start_screen = True  
+
+# Group for all sprites and bullets
+all_sprites = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
+platforms = []
+
+# Create a basic platform
+platform_rect = pygame.Rect(100, HEIGHT - 100, 600, 20)
+platforms.append(platform_rect)
 
 def start_screen(): # see exercise 1
 
@@ -113,4 +126,46 @@ class Player(pygame.sprite.Sprite):
 # again, you can add a different picture for the Player rect: # see https://www.geeksforgeeks.org/python-display-images-with-pygame/ and https://www.pygame.org/docs/ref/image.html#pygame.image.load
 # you may use a tool like https://www.pixilart.com/draw to create your own artwork, if you would prefer
 
+
+# Groups
+all_sprites = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
+platforms = pygame.sprite.Group()
+
+# Create player
+player = Player()
+all_sprites.add(player)
+
+# Create platforms for testing
+platform1 = Platform(100, HEIGHT - 50, 400, 20)
+platforms.add(platform1)
+all_sprites.add(platform1)
+
+platform2 = Platform(500, HEIGHT - 150, 200, 20)
+platforms.add(platform2)
+all_sprites.add(platform2)
+
+
+# Main test loop
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Update all sprites
+    all_sprites.update()
+
+    # Draw everything
+    screen.fill(WHITE)
+    all_sprites.draw(screen)
+
+    # Update the display
+    pygame.display.flip()
+
+    # Cap the frame rate
+    clock.tick(FPS)
+
+# Quit Pygame
 pygame.quit()
+sys.exit()
