@@ -126,7 +126,7 @@ class Player(pygame.sprite.Sprite):
 # again, you can add a different picture for the Player rect: # see https://www.geeksforgeeks.org/python-display-images-with-pygame/ and https://www.pygame.org/docs/ref/image.html#pygame.image.load
 # you may use a tool like https://www.pixilart.com/draw to create your own artwork, if you would prefer
 
-
+# here is another code to test your player code. Note that your platform & bullet classes must already work
 # Groups
 all_sprites = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
