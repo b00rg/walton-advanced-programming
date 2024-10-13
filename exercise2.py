@@ -54,7 +54,7 @@ class Bullet(pygame.sprite.Sprite): # again, looking at the enemy sprite from e
 # see https://www.pygame.org/docs/ref/image.html#pygame.image.load
 # think about adding zapping noises for the bullets: see https://www.pygame.org/docs/ref/mixer.html and https://pythonprogramming.net/adding-sounds-music-pygame/
 # you may use a tool like https://www.pixilart.com/draw to create your own artwork, if you would prefer
-
+# think about if you could change the player image when shooting or jumping 
 
 
 # code below tests the platform and enemy code. think about how you can test the bullet code. 
