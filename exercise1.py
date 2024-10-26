@@ -76,14 +76,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.rect.right < 0: # note this is going to have to change based on what direction it is moving; because it is going from right to left, it disappears when x = 0  
             # self.rect.x = 
             # self.rect.y = 
-
-# if you have time at the end, think about how you would use a heart image in the game instead of a rectangle for hearts: 
-# do the same for an enemy picture for the enemy. 
-# see https://www.geeksforgeeks.org/python-display-images-with-pygame/ and https://www.pygame.org/docs/ref/image.html#pygame.image.load
-# you may use a tool like https://www.pixilart.com/draw to create your own artwork, if you would prefer
-            
-# here is a main to test if your code is working. It should change from start to paused when the space bar is pressed. 
-# When you press space again, it goes to display your hearts and enemies on screen. You may continually press the space bar to respawn enemies. 
+ 
 def main():
     global running, game_active, on_start_screen, game_over_state
 
