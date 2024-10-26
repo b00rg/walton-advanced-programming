@@ -50,13 +50,14 @@ class Bullet(pygame.sprite.Sprite): # again, looking at the enemy sprite from e
        # If self.rect.left is greater than the WIDTH constant : 
             self.kill() # remove the bullet 
       
-# if you have finished this week's exercise, try and figure out how to get images for the bullets and platforms instead of rectangles
+# if you have finished this week's exercise, try and figure out how to get images for the bullets and enemies, hearts imager for the health and platforms instead of rectangles
 # see https://www.pygame.org/docs/ref/image.html#pygame.image.load
 # think about adding zapping noises for the bullets: see https://www.pygame.org/docs/ref/mixer.html and https://pythonprogramming.net/adding-sounds-music-pygame/
 # you may use a tool like https://www.pixilart.com/draw to create your own artwork, if you would prefer
 # think about if you could change the player image when shooting or jumping 
-
-
+          
+# here is a main to test if your code is working. It should change from start to paused when the space bar is pressed. 
+# When you press space again, it goes to display your hearts and enemies on screen. You may continually press the space bar to respawn enemies.
 # code below tests the platform and enemy code. think about how you can test the bullet code. 
 # Initialize Pygame
 pygame.init()
