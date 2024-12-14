@@ -38,13 +38,114 @@ platforms = []
 platform_rect = pygame.Rect(100, HEIGHT - 100, 600, 20)
 platforms.append(platform_rect)
 
-def start_screen(): # see exercise 1
+import pygame
+import sys
+import random
 
-def pause_screen(): # see exercise 1
+# Initialize Pygame
+pygame.init()
 
-def game_over(): # see exercise 1
+# Constants
+WIDTH, HEIGHT = 800, 600
+FPS = 60
+GRAVITY = 0.5
+JUMP_STRENGTH = 10
+PLAYER_SPEED = 5
+BULLET_SPEED = 10
+MAX_BULLETS = 3  # Max bullets per level
 
-def draw_health(health): # see exercise 1
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+HEART_COLOR = (255, 20, 147)
+
+# Setup the display
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Scrolling Platformer")
+
+def start_screen():
+    font = pygame.font.Font(None, 74)
+    text = font.render("Press SPACE to Begin", True, BLACK)
+    screen.fill(WHITE)
+    screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
+
+
+def pause_screen():
+    font = pygame.font.Font(None, 74)
+    text = font.render("Paused", True, BLACK)
+    screen.fill(WHITE)
+    screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
+
+    font = pygame.font.Font(None, 36)
+    quit_text = font.render("Press Q to Quit", True, BLACK)
+    screen.blit(quit_text, (WIDTH // 2 - quit_text.get_width() // 2, HEIGHT // 2 + 50))
+
+def game_over():
+    font = pygame.font.Font(None, 74)
+    text = font.render("Game Over", True, BLACK)
+    screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
+
+    font = pygame.font.Font(None, 36)
+    restart_text = font.render("Press SPACE to Restart", True, BLACK)
+    screen.blit(restart_text, (WIDTH // 2 - restart_text.get_width() // 2, HEIGHT // 2 + 50))
+
+
+class Platform(pygame.sprite.Sprite):
+    def __init__(self, x, y, width, height):
+        super().__init__()
+        self.image = pygame.Surface((width, height))
+        self.image.fill(GREEN)
+        self.rect = self.image.get_rect(topleft=(x, y))
+
+
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface((50, 50))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect(topleft=(x, y))
+        self.speed = random.choice([1, 2])  # Random enemy speed
+
+    def update(self):
+        self.rect.x -= self.speed  # Move left
+        # Respawn if it goes off screen
+        if self.rect.right < 0:
+            self.rect.x = random.randint(WIDTH, WIDTH + 100)
+            self.rect.y = HEIGHT - 100  # Reset to ground level
+
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface((10, 5))
+        self.image.fill(BLACK)
+        self.rect = self.image.get_rect(center=(x, y))
+
+    def update(self):
+        self.rect.x += BULLET_SPEED
+        if self.rect.left > WIDTH:  # Remove bullet if it goes off screen
+            self.kill()
+
+
+# Function to draw hearts
+def draw_health(health):
+    for i in range(health):
+        pygame.draw.rect(screen, HEART_COLOR, (10 + i * 40, 10, 30, 30))  # Draw hearts in the top left
+
+
+# Game over function
+def game_over():
+    font = pygame.font.Font(None, 74)
+    text = font.render("Game Over", True, BLACK)
+    screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
+
+    font = pygame.font.Font(None, 36)
+    restart_text = font.render("Press SPACE to Restart", True, BLACK)
+    screen.blit(restart_text, (WIDTH // 2 - restart_text.get_width() // 2, HEIGHT // 2 + 50))
+
+
    
 class Enemy(pygame.sprite.Sprite): # see exercise 1
     def __init__(self, x, y):
