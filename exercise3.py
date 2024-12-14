@@ -1,45 +1,5 @@
 import pygame
 import sys
-
-
-# Constants
-WIDTH, HEIGHT = 800, 600
-PLAYER_SPEED = 5
-JUMP_STRENGTH = 15
-GRAVITY = 1
-MAX_BULLETS = 5
-BULLET_SPEED = 10
-BLUE = (0, 0, 255)
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-
-# Colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-BLUE = (0, 0, 255)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
-HEART_COLOR = (255, 20, 147)
-
-FPS = 60
-
-# Initialize Pygame
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Player Test")
-clock = pygame.time.Clock()
-
-# Group for all sprites and bullets
-all_sprites = pygame.sprite.Group()
-bullets = pygame.sprite.Group()
-platforms = []
-
-# Create a basic platform
-platform_rect = pygame.Rect(100, HEIGHT - 100, 600, 20)
-platforms.append(platform_rect)
-
-import pygame
-import sys
 import random
 
 # Initialize Pygame
@@ -93,6 +53,10 @@ def game_over():
     screen.blit(restart_text, (WIDTH // 2 - restart_text.get_width() // 2, HEIGHT // 2 + 50))
 
 
+
+
+
+
 class Platform(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         super().__init__()
@@ -136,20 +100,6 @@ def draw_health(health):
 
 
 
-   
-class Enemy(pygame.sprite.Sprite): # see exercise 1
-    def __init__(self, x, y):
-        super().__init__()
-    def update(self):
-
-class Platform(pygame.sprite.Sprite): # see exercise 2
-    def __init__(self, x, y, width, height): 
-        super().__init__()
-
-class Bullet(pygame.sprite.Sprite): # see exercise 2
-    def __init__(self, x, y): 
-        super().__init__()
-    def update(self): 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
