@@ -169,44 +169,146 @@ class Player(pygame.sprite.Sprite):
 
 # here is another code to test your player code. Note that your platform & bullet classes must already work
 # Groups
+
+# Create sprite groups
 all_sprites = pygame.sprite.Group()
-bullets = pygame.sprite.Group()
 platforms = pygame.sprite.Group()
+enemies = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
 
-# Create player
-player = Player()
-all_sprites.add(player)
+# Global variable for player
+player = None
 
-# Create platforms for testing
-platform1 = Platform(100, HEIGHT - 50, 400, 20)
-platforms.add(platform1)
-all_sprites.add(platform1)
+# Levels data
+levels = [
+    [(100, HEIGHT - 50, 400, 20), (600, HEIGHT - 150, 400, 20), (200, HEIGHT - 300, 600, 20)],  # Level 1 platforms
+    [(100, HEIGHT - 50, 300, 20), (400, HEIGHT - 200, 300, 20), (300, HEIGHT - 350, 300, 20)],  # Level 2 platforms
+    [(100, HEIGHT - 50, 200, 20), (500, HEIGHT - 250, 300, 20), (300, HEIGHT - 400, 300, 20)],  # Level 3 platforms
+]
 
-platform2 = Platform(500, HEIGHT - 150, 200, 20)
-platforms.add(platform2)
-all_sprites.add(platform2)
+# Create enemies for each level
+def create_enemies_for_level(level):
+    enemies.empty()
+    for _ in range(5):  # Increase the number of enemies
+        enemy = Enemy(random.randint(WIDTH, WIDTH + 100), HEIGHT - 100)
+        all_sprites.add(enemy)
+        enemies.add(enemy)
 
 
-# Main test loop
+# Global variable for current level
+current_level = 0
+
+# Function to reset the game
+def reset_game():
+    global player, current_level
+    if player:  # Only create a new player if one does not already exist
+        player.health = 3  # Reset health
+        player.rect.topleft = (50, HEIGHT - 150)  # Reset position
+        player.hit_timer = 0  # Reset hit timer
+        player.bullets_fired = 0  # Reset bullet count
+    else:
+        player = Player()
+        all_sprites.add(player)
+
+    # Create platforms
+    platforms.empty()
+    for platform_data in levels[current_level]:
+        platform = Platform(*platform_data)
+        all_sprites.add(platform)
+        platforms.add(platform)
+
+    # Create enemies for the current level
+    create_enemies_for_level(current_level)
+
+
+# Start game with player
+reset_game()
+
+# Game loop
+clock = pygame.time.Clock()
+camera_x = 0  # Camera offset
 running = True
+game_active = False  # The game will start in an inactive state
+paused = False  # To track if the game is paused
+on_start_screen = True  # Start with the start screen
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                if on_start_screen:  # If we're on the start screen, start the game
+                    game_active = True
+                    on_start_screen = False
+                elif not game_active:  # Restart the game if it's over
+                    game_active = True
+                    current_level = 0
+                    reset_game()
+                else:  # Toggle pause
+                    paused = not paused
+            if event.key == pygame.K_q and paused:  # Press 'Q' to quit when paused
+                running = False
 
-    # Update all sprites
-    all_sprites.update()
+    if on_start_screen:
+        start_screen()
 
-    # Draw everything
-    screen.fill(WHITE)
-    all_sprites.draw(screen)
+    elif game_active:
+        if not paused:
+            # Update game elements
+            all_sprites.update()
 
-    # Update the display
+            # Collision detection with enemies
+            if pygame.sprite.spritecollide(player, enemies, False):
+                if player.hit_timer == 0:  # Only lose a life if the hit timer is not active
+                    player.health -= 1
+                    player.hit_timer = 180  # Set cooldown for 3 seconds (180 frames)
+                    if player.health <= 0:
+                        game_active = False  # End the game if health is zero
+
+            # Collision detection between bullets and enemies
+            hits = pygame.sprite.groupcollide(bullets, enemies, True, True)
+            for hit in hits:
+                player.bullets_fired -= 1  # Decrement bullets fired on hit
+                if not enemies:  # If all enemies are defeated, advance to the next level
+                    current_level += 1
+                    if current_level < len(levels):  # If there are more levels
+                        reset_game()
+                    else:  # If no more levels, end the game
+                        game_active = False
+
+            # Keep character within the screen
+            if player.rect.x < 0:
+                player.rect.x = 0
+            elif player.rect.x > WIDTH - player.rect.width:
+                player.rect.x = WIDTH - player.rect.width
+            if player.rect.y > HEIGHT - player.rect.height:
+                player.rect.y = HEIGHT - player.rect.height
+                player.velocity_y = 0
+                player.on_ground = True
+
+            # Update camera offset to follow the player
+            if player.rect.x > WIDTH // 2:  # If the player moves past the middle of the screen
+                camera_x = player.rect.x - WIDTH // 2
+
+            # Drawing
+            screen.fill(WHITE)
+
+            # Draw all sprites relative to the camera offset
+            for sprite in all_sprites:
+                screen.blit(sprite.image, sprite.rect.move(-camera_x, 0))
+
+            # Draw health
+            draw_health(player.health)
+
+        else:  # If paused, show the pause screen
+            pause_screen()
+
+    else:
+        # Display Game Over screen
+        game_over()
+
     pygame.display.flip()
-
-    # Cap the frame rate
     clock.tick(FPS)
 
-# Quit Pygame
 pygame.quit()
-sys.exit()
