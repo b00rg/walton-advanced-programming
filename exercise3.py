@@ -135,16 +135,6 @@ def draw_health(health):
         pygame.draw.rect(screen, HEART_COLOR, (10 + i * 40, 10, 30, 30))  # Draw hearts in the top left
 
 
-# Game over function
-def game_over():
-    font = pygame.font.Font(None, 74)
-    text = font.render("Game Over", True, BLACK)
-    screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
-
-    font = pygame.font.Font(None, 36)
-    restart_text = font.render("Press SPACE to Restart", True, BLACK)
-    screen.blit(restart_text, (WIDTH // 2 - restart_text.get_width() // 2, HEIGHT // 2 + 50))
-
 
    
 class Enemy(pygame.sprite.Sprite): # see exercise 1
