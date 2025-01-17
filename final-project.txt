@@ -1,4 +1,7 @@
-objectives: 
+# objectives: 
+
+go to https://github.com/b00rg/walton-advanced-programming/tree/main/game-template & copy/paste the code over
+
 1. Create the camera class (implement collisions)
 2. Create a new enemy class
 3. Figure out a way to “level up” the player class & implement this
