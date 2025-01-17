@@ -1,0 +1,5 @@
+objectives: 
+1. Create the camera class (implement collisions)
+2. Create a new enemy class
+3. Figure out a way to “level up” the player class & implement this
+4. Finishing touches / create additional level files
