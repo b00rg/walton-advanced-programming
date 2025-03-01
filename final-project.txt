@@ -2,7 +2,8 @@
 
 go to https://github.com/b00rg/walton-advanced-programming/tree/main/game-template & copy/paste the code over
 
-week 1. Create the camera class (implement collisions)
-week 2. Create a new enemy class
-week 3. Figure out a way to “level up” the player class & implement this
-week 4. Finishing touches / create additional level files
+Create new enemy class from sprite_sheet.py  :  https://github.com/b00rg/walton-advanced-programming/blob/main/game-template/sprite_sheet.py
+Create new level / add onto the existing level for extended gameplay : https://github.com/b00rg/walton-advanced-programming/tree/main/game-template/assets/levels 
+Try to alter the existing enemy and level and player class so that each team has a unique game. You can upload images from the web for the sprites and levels, etc. change the platform placement, etc. 
+
+Think about levelling up the player (additional
